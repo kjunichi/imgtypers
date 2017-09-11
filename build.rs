@@ -7,15 +7,9 @@ use std::io::Write;
 
 fn main() {
     let out_dir = env::var("OUT_DIR").unwrap();
-    let dest_dll_path = Path::new(&out_dir).join("../../..").join("tmgtype.dll");
+    let dest_dll_path = Path::new(&out_dir).join("../../..").join("imgtype.dll");
     fs::copy("./vendor/imgtype.dll", dest_dll_path);
-    let dest_path = Path::new(&out_dir).join("hello.rs");
-    let mut f = File::create(&dest_path).unwrap();
+    fs::copy("./vendor/imgtype.lib", out_dir);
 
-    f.write_all(b"
-        pub fn message() -> &'static str {
-            \"Hello, World!\"
-        }
-    ").unwrap();
     println!("cargo:rustc-link-search=native=./vendor");
 }
