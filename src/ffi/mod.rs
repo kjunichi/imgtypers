@@ -1,6 +1,6 @@
 extern crate libc;
 
-use self::libc::{c_char, c_int, c_void, c_uchar};
+use self::libc::{c_int, c_void, c_uchar};
 
 #[link(name = "imgtype")]
 extern "C" {
