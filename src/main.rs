@@ -6,6 +6,19 @@ fn main() {
     let mut ptr = &mut img;
     imgtypers::term_put_image(ptr, 2, 2);
     imgtypers::term_flush();
-    imgtypers::term_wait();
+
+    if cfg!(not(windows)) {
+        imgtypers::term_wait();
+    }
+
+    if cfg!(windows) {
+        loop {
+            if imgtypers::term_get_esc_key() {
+                // imgtypers::term_close();
+                break;
+            }
+        }
+    }
     imgtypers::term_close();
+
 }
