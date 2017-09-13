@@ -40,3 +40,8 @@ pub fn term_get_esc_key() -> bool {
     }
     return false;
 }
+
+#[cfg(not(windows))]
+pub fn term_get_esc_key() -> bool {
+    return false;
+}
