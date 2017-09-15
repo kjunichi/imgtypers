@@ -32,7 +32,7 @@ pub fn term_put_image(mut img: &mut Vec<u8>, width: i32, height: i32) -> () {
     }
 }
 
-#[cfg(windows)]
+#[cfg(target_os="windows")]
 pub fn term_get_esc_key() -> bool {
     let r: i16 = unsafe { ffi::GetAsyncKeyState(ffi::VK_ESCAPE) } as i16;
     if r != 0 {
@@ -41,8 +41,10 @@ pub fn term_get_esc_key() -> bool {
     return false;
 }
 
-#[cfg(not(windows))]
+#[cfg(not(target_os="windows"))]
 static mut G_FCNTL_NONBLOCK: bool = false;
+
+#[cfg(not(target_os="windows"))]
 pub fn term_get_esc_key() -> bool {
     unsafe {
         if !G_FCNTL_NONBLOCK {
