@@ -42,7 +42,15 @@ pub fn term_get_esc_key() -> bool {
 }
 
 #[cfg(not(windows))]
+static mut G_FCNTL_NONBLOCK: bool = false;
 pub fn term_get_esc_key() -> bool {
+    unsafe {
+        if !G_FCNTL_NONBLOCK {
+            libc::fcntl(0, libc::F_SETFL, libc::O_NONBLOCK);
+            G_FCNTL_NONBLOCK = true;
+        }
+    }
+
     let mut buf: [libc::c_char; 1] = [0; 1];
     let ptr = &mut buf;
     let r = unsafe { libc::read(0, ptr.as_ptr() as *mut libc::c_void, 1) };
