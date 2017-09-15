@@ -43,5 +43,11 @@ pub fn term_get_esc_key() -> bool {
 
 #[cfg(not(windows))]
 pub fn term_get_esc_key() -> bool {
+    let mut buf: [libc::c_char; 1] = [0; 1];
+    let ptr = &mut buf;
+    let r = unsafe { libc::read(0, ptr.as_ptr() as *mut libc::c_void, 1) };
+    if r == 27 {
+        return true;
+    }
     return false;
 }
