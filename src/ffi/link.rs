@@ -1,7 +1,7 @@
 #[cfg(windows)]
 #[link(name = "imgtype")]
 #[link(name = "user32")]
-extern "C" {}
+extern "system" {}
 
 #[cfg(not(windows))]
 #[link(name = "imgtype")]
