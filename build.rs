@@ -34,11 +34,10 @@ fn main() {
     // cd libimgtype
     // go build -buildmode=c-archive -o libimgtype.a main.go
     let out_dir = env::var("OUT_DIR").unwrap();
-    let dest_lib_path = Path::new(&out_dir).join("lib");
     
     Command::new("go").args(&["build","-buildmode=c-archive","-o"])
-    .arg(&format!("{}/libimgtype.a", dest_lib_path))
-    .current_dir(libimgtype)
+    .arg(&format!("{}/lib/libimgtype.a", out_dir))
+    .current_dir(Path::new("libimgtype"))
     .status().unwrap();
     
     println!("cargo:rustc-link-search=native={}/lib", out_dir);
